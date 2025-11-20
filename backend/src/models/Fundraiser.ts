@@ -9,6 +9,7 @@ export interface IFundraiser extends Document {
     dateTime: Date;
     proceedsInfo?: string; //optional info how proceeds are distributed
     instagramLink: string; 
+    flyerImage: string;
     createdBy?: Types.ObjectId; //optional reference to the user who created it; uses MongoDB’s ObjectId
 }
 
@@ -20,6 +21,7 @@ const fundraiserSchema = new Schema<IFundraiser>({
     dateTime: { type: Date, required: true },
     proceedsInfo: { type: String },
     instagramLink: { type: String },
+    flyerImage: { type: String },
     createdBy: { type: Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
 

@@ -23,7 +23,7 @@ export const createFundraiser = async (req:AuthRequest, res: Response) => {
   "instagramLink": "https://instagram.com/xxxxxx"
   }
   */
-  const { clubName, fundraiserName, location, dateTime, proceedsInfo, instagramLink } = req.body;
+  const { clubName, fundraiserName, location, dateTime, proceedsInfo, instagramLink, flyerImage } = req.body;
 
   if (!clubName || !fundraiserName || !location || !dateTime){
     return res.status(400).json({ message: 'clubName, fundraiserName, location and dateTime are required' })
@@ -40,6 +40,7 @@ export const createFundraiser = async (req:AuthRequest, res: Response) => {
     dateTime: new Date(dateTime),
     proceedsInfo,
     instagramLink,
+    flyerImage,
     createdBy: req.userId
   });
 
