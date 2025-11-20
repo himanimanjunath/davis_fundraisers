@@ -1,9 +1,5 @@
 import express from 'express';
-
-//
 import { createFundraiser, listFundraisers, getFundraiser, deleteFundraiser } from '../controllers/fundraiserController.js';
-
-//
 import { authenticate } from '../middleware/auth.js'; 
 
 //new express router instance just for fundraiser related endpoints 
