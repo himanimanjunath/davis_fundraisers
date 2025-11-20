@@ -20,10 +20,10 @@ router.get('/:id', getFundraiser);
 
 //post endpoint at /
 //runs authenticate before createFundraiser 
-router.post('/', authenticate, createFundraiser);
+router.post('/', createFundraiser);
 
 //delete endpoint at /:id
-router.delete('/:id', authenticate, deleteFundraiser);
+router.delete('/:id', deleteFundraiser);
 
 //export to use in main server 
 export default router;
