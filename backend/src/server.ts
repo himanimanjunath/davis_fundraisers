@@ -14,6 +14,9 @@ const PORT = process.env.PORT || 4000;
 //tells mongoose which mongodb cluster to connect to 
 const MONGO_URI = process.env.MONGO_URI || '';
 
+console.log("Hello");
+console.log(MONGO_URI);
+
 //calling connectDB to connect to mongodb using URI and it returns a promise and we use then to wait till connection is successful before starting server 
 connectDB(MONGO_URI).then(() => {
 

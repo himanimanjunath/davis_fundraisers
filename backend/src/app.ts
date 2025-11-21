@@ -9,6 +9,9 @@ dotenv.config();
 //express app instance
 const app = express();
 
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
+
 //use CORS middleware globally to all routes 
 app.use(cors());
 
