@@ -23,11 +23,11 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Hero Section */}
+      {/* Hero section */}
       <main className={styles.main}>
         <section className={styles.hero}>
           <div className={styles.heroContent}>
-            <div>
+            <div className={styles.badge}>
               <span className={styles.heroMiniText}>Supporting UC Davis Clubs</span>
             </div>
             

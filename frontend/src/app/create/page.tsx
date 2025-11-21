@@ -65,8 +65,6 @@ export default function CreateFundraiserPage() {
         flyerImage: formData.flyerImage,
       }
 
-      console.log("[v0] Submitting fundraiser:", payload)
-
       const response = await fetch("/api/fundraisers", {
         method: "POST",
         headers: {
@@ -76,7 +74,6 @@ export default function CreateFundraiserPage() {
       })
 
       const data = await response.json()
-      console.log("[v0] Response from backend:", data)
 
       if (response.ok) {
         router.push("/fundraisers")
