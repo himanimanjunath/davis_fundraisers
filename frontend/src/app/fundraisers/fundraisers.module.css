@@ -5,7 +5,7 @@
 }
 
 .header {
-  border-bottom: 2px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
 }
@@ -76,8 +76,44 @@
   gap: 1rem;
 }
 
+/* Added search bar and input styles */
+.searchContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 250px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.75rem;
+  height: 1rem;
+  width: 1rem;
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.5rem 1rem 0.5rem 2.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  background: white;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #002855;
+  box-shadow: 0 0 0 3px rgba(0, 40, 85, 0.1);
+}
+
+.searchInput::placeholder {
+  color: #9ca3af;
+}
+
 .pageTitle {
-  margin-top: 1rem;
   font-size: 1.875rem;
   font-weight: bold;
   color: #111827;
@@ -86,7 +122,6 @@
 .pageDescription {
   color: #6b7280;
   margin-top: 0.5rem;
-  margin-bottom: 1rem;
 }
 
 .primaryButton {
@@ -126,7 +161,6 @@
   background: white;
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
-  /* Removed padding to allow full-width image */
   padding: 0;
   transition: box-shadow 0.2s;
   overflow: hidden;
@@ -136,7 +170,6 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Added cardImage styles for Instagram-style square images */
 .cardImage {
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -150,7 +183,6 @@
   object-fit: cover;
 }
 
-/* Added cardContent to add padding back for text content */
 .cardContent {
   padding: 1.5rem;
 }
@@ -264,7 +296,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {

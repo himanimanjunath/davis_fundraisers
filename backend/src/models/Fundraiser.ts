@@ -11,6 +11,7 @@ export interface IFundraiser extends Document {
     instagramLink: string; 
     flyerImage: string;
     createdBy?: Types.ObjectId; //optional reference to the user who created it; uses MongoDB’s ObjectId
+    createdByEmail?: string;
 }
 
 //defining mongoose schema - actual struct to store fundraiser docs in MongoDB
@@ -22,7 +23,8 @@ const fundraiserSchema = new Schema<IFundraiser>({
     proceedsInfo: { type: String },
     instagramLink: { type: String },
     flyerImage: { type: String },
-    createdBy: { type: Schema.Types.ObjectId, ref: 'User' }
+    createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
+    createdByEmail: { type: String, lowercase: true }
 }, { timestamps: true });
 
 export default model<IFundraiser>('Fundraiser', fundraiserSchema);

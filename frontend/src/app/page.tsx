@@ -23,11 +23,11 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Hero Section */}
+      {/* Hero section */}
       <main className={styles.main}>
         <section className={styles.hero}>
           <div className={styles.heroContent}>
-            <div>
+            <div className={styles.badge}>
               <span className={styles.heroMiniText}>Supporting UC Davis Clubs</span>
             </div>
             
@@ -43,7 +43,7 @@ export default function HomePage() {
               <Link href="/fundraisers">
                 <button className={styles.primaryButton}>Start Supporting</button>
               </Link>
-              <Link href="/create">
+              <Link href="/login">
                 <button className={styles.secondaryButton}>Create Fundraiser</button>
               </Link>
             </div>
