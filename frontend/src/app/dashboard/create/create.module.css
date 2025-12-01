@@ -181,6 +181,13 @@
   color: #374151;
 }
 
+.centeredLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  text-align: center;
+}
+
 .input,
 .textarea {
   width: 100%;

@@ -3,12 +3,13 @@
 import { useState } from "react"
 import { useRouter } from 'next/navigation'
 import Link from "next/link"
-import { Heart, ArrowLeft } from 'lucide-react'
+import { Heart, ArrowLeft, Upload, X } from 'lucide-react'
 import styles from './create.module.css'
 
 export default function CreateFundraiserPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     clubName: "",
     fundraiserName: "",
@@ -17,10 +18,34 @@ export default function CreateFundraiserPage() {
     time: "",
     proceedsInfo: "",
     instagramLink: "",
+    flyerImage: "",
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert("Image size must be less than 5MB")
+        return
+      }
+      
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const base64String = reader.result as string
+        setImagePreview(base64String)
+        setFormData({ ...formData, flyerImage: base64String })
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handleRemoveImage = () => {
+    setImagePreview(null)
+    setFormData({ ...formData, flyerImage: "" })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,9 +62,8 @@ export default function CreateFundraiserPage() {
         dateTime: dateTimeString,
         proceedsInfo: formData.proceedsInfo,
         instagramLink: formData.instagramLink,
+        flyerImage: formData.flyerImage,
       }
-
-      console.log("[v0] Submitting fundraiser:", payload)
 
       const response = await fetch("/api/fundraisers", {
         method: "POST",
@@ -50,7 +74,6 @@ export default function CreateFundraiserPage() {
       })
 
       const data = await response.json()
-      console.log("[v0] Response from backend:", data)
 
       if (response.ok) {
         router.push("/fundraisers")
@@ -100,6 +123,42 @@ export default function CreateFundraiserPage() {
         <div className={styles.formWrapper}>
           <div className={styles.formContainer}>
             <form onSubmit={handleSubmit} className={styles.form}>
+              <div className={styles.formGroup}>
+                <label className={`${styles.label} ${styles.centeredLabel}`}>
+                  Fundraiser Flyer
+                </label>
+                <div className={styles.imageUploadSection}>
+                  {imagePreview ? (
+                    <div className={styles.imagePreviewContainer}>
+                      <img 
+                        src={imagePreview || "/placeholder.svg"} 
+                        alt="Flyer preview" 
+                        className={styles.imagePreview}
+                      />
+                      <button
+                        type="button"
+                        onClick={handleRemoveImage}
+                        className={styles.removeImageButton}
+                      >
+                        <X className={styles.removeIcon} />
+                      </button>
+                    </div>
+                  ) : (
+                    <label className={styles.imageUploadBox}>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className={styles.fileInput}
+                      />
+                      <Upload className={styles.uploadIcon} />
+                      <span className={styles.uploadText}>Upload flyer image</span>
+                      <span className={styles.uploadHint}>PNG, JPG up to 5MB</span>
+                    </label>
+                  )}
+                </div>
+              </div>
+
               <div className={styles.formGroup}>
                 <label htmlFor="clubName" className={styles.label}>
                   Club Name *

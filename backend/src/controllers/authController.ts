@@ -53,23 +53,26 @@ export const login = async (req: Request, res: Response) => {
     
     //extracting email and pw from request body 
     const {email, password} = req.body;
-    console.log("one");
+    //console.log("one");
 
     //validating both fields are given 
     if (!email || !password){
         return res.status(400).json({ message: 'Email and password required'})
     };
-    console.log("two");
+    
+    //console.log("two");
 
     //looking for user in database with given email 
     const user = await User.findOne({email});
-    console.log("three");
+    
+    //console.log("three");
 
     //if no user exists w the email return 401 
     if (!user){
         return res.status(401).json({message: 'Invalid credentials'})
     };
-    console.log("four");
+    
+    //console.log("four");
 
     //using bcrypt to compare raw password provided by user to the hashed one in the database
     const match = await bcrypt.compare(password, user.password);
@@ -78,11 +81,13 @@ export const login = async (req: Request, res: Response) => {
     if (!match){
         return res.status(401).json({message: 'Invalid credentials'});
     }
-    console.log("five");
+    
+    //console.log("five");
 
     //load secret key used to sign JWT from env
     const secret = process.env.JWT_SECRET!;
-    console.log("six");
+    
+    //console.log("six");
 
     res.status(200).json({message: 'Logged in'});
 

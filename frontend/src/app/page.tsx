@@ -43,7 +43,7 @@ export default function HomePage() {
               <Link href="/fundraisers">
                 <button className={styles.primaryButton}>Start Supporting</button>
               </Link>
-              <Link href="/create">
+              <Link href="/login">
                 <button className={styles.secondaryButton}>Create Fundraiser</button>
               </Link>
             </div>
