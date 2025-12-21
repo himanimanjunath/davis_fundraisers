@@ -1,27 +1,15 @@
+//landing page component rendering homepage UI + providing nav to browse fundraisers or log in 
+
 import Link from "next/link"
-import { Heart, Calendar, MapPin } from 'lucide-react'
+import { Calendar, Heart, MapPin } from 'lucide-react'
+import Navigation from "@/components/Navigation"
 import styles from './page.module.css'
 
 export default function HomePage() {
   return (
     <div className={styles.container}>
       {/* header */}
-      <header className={styles.header}>
-        <div className={styles.headerContent}>
-          <div className={styles.logo}>
-            <Heart className={styles.logoIcon} />
-            <span className={styles.logoText}>Aggie Fundraisers</span>
-          </div>
-          <nav className={styles.nav}>
-            <Link href="/fundraisers">
-              <button className={styles.navButton}>Browse</button>
-            </Link>
-            <Link href="/login">
-              <button className={`${styles.navButton} ${styles.navButtonOutline}`}>Login</button>
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <Navigation />
 
       {/* Hero section */}
       <main className={styles.main}>

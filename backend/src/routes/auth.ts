@@ -1,4 +1,5 @@
-//need to do this
+//tells express which urls exist for auth and which controller functions should run when those urls are hit
+
 import express from 'express';
 import { register, login } from '../controllers/authController.js'; 
 

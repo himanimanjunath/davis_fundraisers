@@ -1,8 +1,13 @@
+//defines my express app - wires the middleware, routes, and basic app config together but doesn't start the server yet
+//creates + configures express app, sets up middleware, mounts routes, and exports app for server to run 
+//this separates app config (middleware + routes) while server startup is for listen and db connection 
+
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.js';
 import fundraiserRoutes from './routes/fundraisers.js';
+import usersRoutes from './routes/users.js';
 
 dotenv.config();
 
@@ -24,6 +29,9 @@ app.use('/api/auth', authRoutes);
 
 //same but for fundraisers, so the get post and get delete are handled by fundraiserRoutes 
 app.use('/api/fundraisers', fundraiserRoutes);
+
+//mount user routes at /api/users so GET /api/users/me returns current authenticated user
+app.use('/api/users', usersRoutes);
 
 //define root route like GET/ for testing and returns simple json response w msg and status
 //good for testing 

@@ -1,3 +1,9 @@
+//proxy route between next and express 
+//this is for logging in existing users
+
+//this route accepts login credentials from the next.js app, forwards them to 
+//express auth API, and returns reponse in frontend safe way
+
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest) {

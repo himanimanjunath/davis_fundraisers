@@ -1,3 +1,10 @@
+//defines backend logic for handling fundraiser related HTTP requests
+//when frontend makes a request about fundraisers, what should the server do?
+// creates, lists, deletes, gets one fundraiser
+//talks to db using fundraiser model 
+//frontend → route → controller → mongodb → reponse
+
+
 //request = incoming http request and response = outgoing http response
 import { Request, Response } from 'express';
 
@@ -5,7 +12,10 @@ import { Request, Response } from 'express';
 import Fundraiser from '../models/Fundraiser.js';
 
 //so backend knows which user is deleting / creating fundraisers 
-import { AuthRequest } from '../middleware/auth.js'; 
+import { AuthRequest } from '../middleware/auth.js';
+
+//for ObjectId validation
+import mongoose from 'mongoose'; 
 
 //function handling POST requests to make new fundraisers
 //using authrequest because the route needs authentication (we know who's creating the fundraiser)
@@ -94,20 +104,92 @@ export const getFundraiser = async (req: Request, res: Response) => {
 }
 
 export const deleteFundraiser = async (req: AuthRequest, res: Response)=>{
-  const id = req.params.id;
-   const fund = await Fundraiser.findById(id);
-  if (!fund) return res.status(404).json({ message: 'Not found' });
+  try {
+    const id = req.params.id;
+    
+    // Log request details for debugging
+    console.log('Backend Controller - DELETE Request:', {
+      fundraiserId: id,
+      userId: req.userId,
+      authorizationHeader: req.headers.authorization ? `${req.headers.authorization.substring(0, 20)}...` : 'missing'
+    });
+    
+    // Check if userId is available from authentication
+    if (!req.userId) {
+      console.log('Backend Controller - Missing userId, returning 401');
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
 
-  //only person/acc who created the fundraiser can delete it
-  //i wanna change this so it atuomatically deletes after the date for fundraiser has passed 
-  if (fund.createdBy?.toString() !== req.userId) {
-    return res.status(403).json({ message: 'Not authorized' });
+    // Validate that id is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      console.log('Backend Controller - Invalid ObjectId format, returning 404');
+      return res.status(404).json({ message: 'Not found' });
+    }
+
+    // Find fundraiser by ID
+    const fund = await Fundraiser.findById(id);
+    if (!fund) {
+      console.log('Backend Controller - Fundraiser not found, returning 404');
+      return res.status(404).json({ message: 'Not found' });
+    }
+
+    // Log fundraiser ownership details for debugging
+    console.log('Backend Controller - Ownership check:', {
+      fundraiserCreatedBy: fund.createdBy?.toString(),
+      requestUserId: req.userId,
+      match: fund.createdBy?.toString() === req.userId
+    });
+
+    //only person/acc who created the fundraiser can delete it
+    //i wanna change this so it atuomatically deletes after the date for fundraiser has passed 
+    if (fund.createdBy?.toString() !== req.userId) {
+      console.log('Backend Controller - User does not own fundraiser, returning 403');
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    //delete fundraiser from database using deleteOne() method
+    await fund.deleteOne();
+    console.log('Backend Controller - Fundraiser deleted successfully, returning 200');
+    res.status(200).json({ message: 'Deleted' });
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    console.error('Backend Controller - Error deleting fundraiser:', {
+      error: errorMessage,
+      stack: errorStack,
+      fundraiserId: req.params.id,
+      userId: req.userId
+    });
+    res.status(500).json({ 
+      message: 'Error deleting fundraiser', 
+      error: errorMessage 
+    });
   }
-
-  //delete fundraiser from database & respond with success message 
-  await Fundraiser.findByIdAndDelete(id);
-  res.json( {message: 'Deleted'} );
 }
+
+//returns all fundraisers created by the authenticated user
+//uses req.userId from AuthRequest to filter fundraisers
+//sorts by createdAt descending (newest first)
+export const getMyFundraisers = async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = req.userId;
+
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    //find all fundraisers where createdBy matches the user's ID
+    //sort by createdAt descending (newest first)
+    const fundraisers = await Fundraiser.find({ createdBy: userId })
+      .sort({ createdAt: -1 })
+      .exec();
+
+    res.status(200).json(fundraisers);
+  } catch (error) {
+    console.error('Error fetching user fundraisers:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 
 
 

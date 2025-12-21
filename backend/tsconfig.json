@@ -1,37 +1,30 @@
 {
-  // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
-    /* Core settings */
-    "target": "ESNext",                        // Use modern JS output
-    "module": "NodeNext",                      // Required for ES Modules in Node
-    "moduleResolution": "NodeNext",            // Ensures NodeNext resolves imports correctly
-    "rootDir": "src",                          // Where your TS source lives
-    "outDir": "dist",                          // Compiled JS output folder
+    /* Type checking */
     "strict": true,
-
-    /* Type support */
-    "types": ["node", "express"],              // Ensures Node + Express types are included
-    "esModuleInterop": true,                   // Allows default imports from CommonJS libs
-    "skipLibCheck": true,                      // Prevents noise from type packages
-    "forceConsistentCasingInFileNames": true,  // Fixes case sensitivity issues
-    "resolveJsonModule": true,                 // Allows importing JSON
-    "allowSyntheticDefaultImports": true,      // Helps with default import compatibility
-
-    /* Safety & quality */
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
     "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
+    "forceConsistentCasingInFileNames": true,
+    
+    /* Modules */
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "moduleDetection": "force",
 
-    /* Output */
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
+    /* Emit */
+    "noEmit": true,
+    
+    /* Interop */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
 
-    /* React (safe to leave for now) */
-    "jsx": "react-jsx"
+    /* Type support */
+    "types": ["node"],
+    "skipLibCheck": true
   },
-  "include": ["src"],                          // Include your TypeScript source folder
-  "exclude": ["node_modules", "dist"]          // Don’t compile these
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }

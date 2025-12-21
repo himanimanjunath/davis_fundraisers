@@ -1,13 +1,17 @@
+//authenticates users by calling api route, storing jwt in local storage, and redirectiong on success
+
 "use client"
 
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
 import { Heart } from 'lucide-react'
+import { useAuth } from "@/contexts/AuthContext"
 import styles from './login.module.css'
 
 export default function LoginPage() {
   const router = useRouter()
+  const { login } = useAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -28,7 +32,7 @@ export default function LoginPage() {
       const data = await response.json()
 
       if (response.ok) {
-        localStorage.setItem("token", data.token)
+        login(data.token)
         router.push("/dashboard")
       } else {
         setError(data.message || "Login failed. Please try again.")
