@@ -1,3 +1,8 @@
+//proxy route between next and express 
+//this is for registering new users
+
+//accepts registration data from the next.js app, forwards it to express auth, and returns clearn response to frontend
+
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest) {

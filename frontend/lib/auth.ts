@@ -1,3 +1,10 @@
+//figuring this out still
+
+//configuring nextauth with googleoath, restricting access to UC davis emails, and exposing auth API routes used by frontend
+//configuring how users sign in
+//defines who can sign in 
+//controls what data goes into the session
+
 import NextAuth from "next-auth"
 import type { NextAuthOptions } from "next-auth"
 import type { Provider } from "next-auth/providers/index"

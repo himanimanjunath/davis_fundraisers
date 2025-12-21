@@ -1,3 +1,5 @@
+//defines all http routes for fundraisers and connects to them to correct controller functions
+ 
 import express from 'express';
 import { createFundraiser, listFundraisers, getFundraiser, deleteFundraiser } from '../controllers/fundraiserController.js';
 import { authenticate } from '../middleware/auth.js'; 
@@ -16,10 +18,11 @@ router.get('/:id', getFundraiser);
 
 //post endpoint at /
 //runs authenticate before createFundraiser 
-router.post('/', createFundraiser);
+router.post('/', authenticate, createFundraiser);
 
 //delete endpoint at /:id
-router.delete('/:id', deleteFundraiser);
+//runs authenticate before deleteFundraiser to ensure only creator can delete
+router.delete('/:id', authenticate, deleteFundraiser);
 
 //export to use in main server 
 export default router;

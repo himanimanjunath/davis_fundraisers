@@ -1,3 +1,6 @@
+//entry point of backend - file that connects to database and turns server on 
+//file boots the app, loads environment var, connects to mongodb, starts express server
+
 import app from './app.js'; 
 
 //async function connecting Node.js backend to MongoDB database

@@ -1,3 +1,6 @@
+//client side registration page validating user input, submitting to api route, and redirecting user after
+//successful account creation 
+
 "use client"
 
 import { useState } from "react"

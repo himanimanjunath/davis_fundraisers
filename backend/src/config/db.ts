@@ -1,3 +1,8 @@
+//connecting app to database (mongodb using mongoose)
+//keeps database logic separate from server logic 
+//prevents server from running without DB
+//basically makes sure the database is online before app does anything else - how does this app connect to its database?
+
 import mongoose from 'mongoose'; //mongoose lib for MongoDB interaction 
 
 //asynchronous function that will try to connect to your MongoDB database using the connection string you pass in

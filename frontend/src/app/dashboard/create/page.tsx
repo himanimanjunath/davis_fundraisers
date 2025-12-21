@@ -1,13 +1,17 @@
+//client side page that has the create fundraiser form, handles user input/image uploads and submits data to API 
+
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from 'next/navigation'
 import Link from "next/link"
 import { Heart, ArrowLeft, Upload, X } from 'lucide-react'
+import { useAuth } from "@/contexts/AuthContext"
 import styles from './create.module.css'
 
 export default function CreateFundraiserPage() {
   const router = useRouter()
+  const { loading, isAuthenticated } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [formData, setFormData] = useState({
@@ -48,8 +52,23 @@ export default function CreateFundraiserPage() {
     setFormData({ ...formData, flyerImage: "" })
   }
 
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      router.push("/login")
+    }
+  }, [loading, isAuthenticated, router])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Check for token before making request
+    const token = localStorage.getItem("token")
+    if (!token) {
+      router.push("/login")
+      return
+    }
+
     setIsLoading(true)
 
     try {
@@ -69,6 +88,7 @@ export default function CreateFundraiserPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
       })
@@ -87,6 +107,16 @@ export default function CreateFundraiserPage() {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  // Show loading state while checking authentication
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  // Don't render if not authenticated (will redirect)
+  if (!isAuthenticated) {
+    return null
   }
 
   return (

@@ -42,8 +42,24 @@ export const register = async (req: Request, res: Response) => {
     //saving the doc into mongodb
     await user.save();
 
-    //201 reponse to show success registration 
-    res.status(201).json({message: 'Registered'});
+    //generate JWT token for the newly registered user
+    const secret = process.env.JWT_SECRET!;
+    const token = jwt.sign(
+      { id: user._id.toString() }, 
+      secret, 
+      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+    );
+
+    //201 reponse to show success registration with token
+    res.status(201).json({
+      message: 'Registered',
+      token,
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name
+      }
+    });
 }; 
 
 //login function 
@@ -89,18 +105,26 @@ export const login = async (req: Request, res: Response) => {
     
     //console.log("six");
 
-    res.status(200).json({message: 'Logged in'});
-
     //make jwt token that encodes user's mongodb id 
     //jwt sign arguments
     //payload - data you're encoding 
     //secret key - from env 
     // token expires in 7 days by default 
-
-    //FIGURE THIS OUT
-    //const token = jwt.sign({ id: user._id }, secret, { expiresIn: process.env.JWT_EXPIRES_IN || '7d' });
-
+    const token = jwt.sign(
+      { id: user._id.toString() }, 
+      secret, 
+      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+    );
 
     //send json reponse w the signed jwt token and basic user info 
     //useful for frontend to store and display to logged in user 
+    res.status(200).json({
+      message: 'Logged in',
+      token,
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name
+      }
+    });
 }

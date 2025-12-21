@@ -1,8 +1,12 @@
+//gets fundraiser data from api, (i want it to do search filtering but not yet), and renders responsive list 
+//with loading and empty states
+
 "use client"
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Heart, Calendar, MapPin, ExternalLink, Search } from "lucide-react"
+import { Calendar, MapPin, ExternalLink, Search } from "lucide-react"
+import Navigation from "@/components/Navigation"
 import styles from "./fundraisers.module.css"
 
 interface Fundraiser {
@@ -65,19 +69,7 @@ export default function FundraisersPage() {
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <div className={styles.headerContent}>
-          <Link href="/" className={styles.logo}>
-            <Heart className={styles.logoIcon} />
-            <span className={styles.logoText}>Aggie Fundraisers</span>
-          </Link>
-          <nav className={styles.nav}>
-            <Link href="/create">
-              <button className={styles.navButton}>Create</button>
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <Navigation />
 
       <main className={styles.main}>
         <div className={styles.pageHeader}>

@@ -1,3 +1,8 @@
+//checks if requests have valid JWT and extract user ID from that JWT
+//attach user ID to request
+//block request if token is missing or invalid
+//protecting routes so only logged in users can 
+
 //protect routes so only logged in users w valid JWT token can access them 
 
 import { Request, Response, NextFunction } from 'express';

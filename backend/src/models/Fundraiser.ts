@@ -1,3 +1,7 @@
+//data blueprint for the fundraisers
+//what fundraiser looks like how its stored in the db and how the rest of the backend is allowed to interact with it
+//defines fundraiser model which tells mongodb what fields a fundraiser has and tells typescript what 
+
 //how fundraiser data is stored
 import {Schema, model, Document, Types} from 'mongoose';
 

@@ -1,5 +1,7 @@
 /*
 models folder to define data model/schema for how user info is stored in the MongoDB database using Mongoose
+how user accounts and stored and handled in database
+user schema and model tells MongoDB and TypeScript what a user looks like and lets the backend create, read, and authenticate users
 */
 
 import {Schema, model, Document} from 'mongoose';
