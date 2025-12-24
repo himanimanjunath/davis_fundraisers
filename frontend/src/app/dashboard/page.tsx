@@ -46,7 +46,8 @@ export default function DashboardPage() {
       const token = localStorage.getItem("token")
       if (!token) return
 
-      const response = await fetch("/api/users/me/fundraisers", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"
+      const response = await fetch(`${apiUrl}/api/users/me/fundraisers`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +81,8 @@ export default function DashboardPage() {
         return
       }
 
-      const requestUrl = `/api/fundraisers/${id}`
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"
+      const requestUrl = `${apiUrl}/api/fundraisers/${id}`
       const requestHeaders = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
