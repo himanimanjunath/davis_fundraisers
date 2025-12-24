@@ -84,7 +84,8 @@ export default function CreateFundraiserPage() {
         flyerImage: formData.flyerImage,
       }
 
-      const response = await fetch("/api/fundraisers", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"
+      const response = await fetch(`${apiUrl}/api/fundraisers`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -69,7 +69,8 @@ export default function FundraisersPage() {
 
   const fetchFundraisers = async () => {
     try {
-      const response = await fetch("/api/fundraisers")
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"
+      const response = await fetch(`${apiUrl}/api/fundraisers`)
 
       if (response.ok) {
         const data = await response.json()
