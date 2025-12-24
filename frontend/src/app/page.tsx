@@ -1,11 +1,25 @@
 //landing page component rendering homepage UI + providing nav to browse fundraisers or log in 
 
+"use client"
+
 import Link from "next/link"
+import { useRouter } from 'next/navigation'
 import { Calendar, Heart, MapPin } from 'lucide-react'
+import { useAuth } from "@/contexts/AuthContext"
 import Navigation from "@/components/Navigation"
 import styles from './page.module.css'
 
 export default function HomePage() {
+  const router = useRouter()
+  const { isAuthenticated } = useAuth()
+
+  const handleCreateFundraiser = () => {
+    if (isAuthenticated) {
+      router.push("/dashboard/create")
+    } else {
+      router.push("/login")
+    }
+  }
   return (
     <div className={styles.container}>
       {/* header */}
@@ -31,9 +45,12 @@ export default function HomePage() {
               <Link href="/fundraisers">
                 <button className={styles.primaryButton}>Start Supporting</button>
               </Link>
-              <Link href="/login">
-                <button className={styles.secondaryButton}>Create Fundraiser</button>
-              </Link>
+              <button 
+                onClick={handleCreateFundraiser}
+                className={styles.secondaryButton}
+              >
+                Create Fundraiser
+              </button>
             </div>
           </div>
         </section>
