@@ -5,7 +5,9 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Calendar, MapPin, ExternalLink, Search } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { Heart, Calendar, MapPin, ExternalLink, Search } from "lucide-react"
+import { useAuth } from "@/contexts/AuthContext"
 import Navigation from "@/components/Navigation"
 import styles from "./fundraisers.module.css"
 
@@ -23,9 +25,43 @@ interface Fundraiser {
 }
 
 export default function FundraisersPage() {
+  const router = useRouter()
+  const { isAuthenticated } = useAuth()
   const [fundraisers, setFundraisers] = useState<Fundraiser[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
+  const [expandedDescriptions, setExpandedDescriptions] = useState<Set<string>>(new Set())
+
+  const WORD_LIMIT = 45
+
+  const truncateText = (text: string, limit: number): { truncated: string; isTruncated: boolean } => {
+    const words = text.trim().split(/\s+/)
+    if (words.length <= limit) {
+      return { truncated: text, isTruncated: false }
+    }
+    const truncated = words.slice(0, limit).join(" ")
+    return { truncated, isTruncated: true }
+  }
+
+  const toggleDescription = (id: string) => {
+    setExpandedDescriptions((prev) => {
+      const newSet = new Set(prev)
+      if (newSet.has(id)) {
+        newSet.delete(id)
+      } else {
+        newSet.add(id)
+      }
+      return newSet
+    })
+  }
+
+  const handleCreateFundraiser = () => {
+    if (isAuthenticated) {
+      router.push("/dashboard/create")
+    } else {
+      router.push("/login")
+    }
+  }
 
   useEffect(() => {
     fetchFundraisers()
@@ -63,9 +99,23 @@ export default function FundraisersPage() {
     return { dateStr, timeStr }
   }
 
-  const filteredFundraisers = fundraisers.filter((fundraiser) =>
-    fundraiser.location.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+  const filteredFundraisers = fundraisers.filter((fundraiser) => {
+    if (!searchQuery.trim()) {
+      return true
+    }
+    const query = searchQuery.toLowerCase()
+    const fundraiserName = (fundraiser.fundraiserName || "").toLowerCase()
+    const clubName = (fundraiser.clubName || "").toLowerCase()
+    const location = (fundraiser.location || "").toLowerCase()
+    const proceedsInfo = (fundraiser.proceedsInfo || "").toLowerCase()
+    
+    return (
+      fundraiserName.includes(query) ||
+      clubName.includes(query) ||
+      location.includes(query) ||
+      proceedsInfo.includes(query)
+    )
+  })
 
   return (
     <div className={styles.container}>
@@ -108,9 +158,12 @@ export default function FundraisersPage() {
                 : "Be the first to post a fundraiser for your club!"}
             </p>
             {!searchQuery && (
-              <Link href="/create">
-                <button className={styles.primaryButton}>Post First Fundraiser</button>
-              </Link>
+              <button 
+                onClick={handleCreateFundraiser}
+                className={styles.primaryButton}
+              >
+                Post First Fundraiser
+              </button>
             )}
           </div>
         ) : (
@@ -133,7 +186,46 @@ export default function FundraisersPage() {
                       <h3 className={styles.cardTitle}>{fundraiser.fundraiserName}</h3>
                       <span className={styles.badge}>{fundraiser.clubName}</span>
                     </div>
-                    {fundraiser.proceedsInfo && <p className={styles.cardDescription}>{fundraiser.proceedsInfo}</p>}
+                    {fundraiser.proceedsInfo && (() => {
+                      const isExpanded = expandedDescriptions.has(fundraiser._id)
+                      const { truncated, isTruncated } = truncateText(fundraiser.proceedsInfo, WORD_LIMIT)
+                      
+                      return (
+                        <div className={styles.cardDescription}>
+                          <p>
+                            {isExpanded || !isTruncated ? fundraiser.proceedsInfo : truncated}
+                            {isTruncated && !isExpanded && (
+                              <>
+                                {" "}
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    toggleDescription(fundraiser._id)
+                                  }}
+                                  className={styles.readMoreLink}
+                                >
+                                  ... Read more
+                                </button>
+                              </>
+                            )}
+                            {isTruncated && isExpanded && (
+                              <>
+                                {" "}
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    toggleDescription(fundraiser._id)
+                                  }}
+                                  className={styles.readMoreLink}
+                                >
+                                  Read less
+                                </button>
+                              </>
+                            )}
+                          </p>
+                        </div>
+                      )
+                    })()}
                     <div className={styles.cardDetails}>
                       <div className={styles.detail}>
                         <MapPin className={styles.detailIcon} />

@@ -142,7 +142,7 @@ export default function CreateFundraiserPage() {
               <ArrowLeft className={styles.backIcon} />
             </button>
           </Link>
-          <div>
+          <div style={{ textAlign: "center" }}>
             <h1 className={styles.pageTitle}>Create Fundraiser</h1>
             <p className={styles.pageDescription}>
               Share your club's fundraising event with the community

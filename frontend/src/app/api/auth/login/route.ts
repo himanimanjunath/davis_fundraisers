@@ -12,11 +12,41 @@ export async function POST(request: NextRequest) {
 
     const backendResponse = await fetch("http://localhost:4000/api/auth/login", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json" 
+      },
       body: JSON.stringify({ email, password }),
     })
 
-    const data = await backendResponse.json()
+    // Check Content-Type header before parsing JSON
+    const contentType = backendResponse.headers.get("content-type")
+    const isJson = contentType && contentType.includes("application/json")
+
+    let data
+    if (isJson) {
+      try {
+        data = await backendResponse.json()
+      } catch (jsonError) {
+        console.error("Caught error parsing JSON:", jsonError)
+        return NextResponse.json(
+          { message: "Invalid response from server" },
+          { status: 500 }
+        )
+      }
+    } else {
+      // Response is not JSON, read as text and log
+      const textResponse = await backendResponse.text()
+      console.error("Backend returned non-JSON response:", {
+        status: backendResponse.status,
+        statusText: backendResponse.statusText,
+        contentType: contentType || "unknown",
+        body: textResponse
+      })
+      return NextResponse.json(
+        { message: "Internal server error" },
+        { status: 500 }
+      )
+    }
 
     if (backendResponse.ok) {
       return NextResponse.json({

@@ -120,8 +120,8 @@ export const deleteFundraiser = async (req: AuthRequest, res: Response)=>{
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    // Validate that id is a valid MongoDB ObjectId
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    // Validate that id exists and is a valid MongoDB ObjectId
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
       console.log('Backend Controller - Invalid ObjectId format, returning 404');
       return res.status(404).json({ message: 'Not found' });
     }

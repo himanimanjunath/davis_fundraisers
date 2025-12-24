@@ -217,10 +217,27 @@
   font-size: 0.875rem;
   line-height: 1.5;
   margin-bottom: 1rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+}
+
+.cardDescription p {
+  margin: 0;
+}
+
+.readMoreLink {
+  background: none;
+  border: none;
+  color: #002855;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 0.25rem;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.readMoreLink:hover {
+  color: #001a3d;
 }
 
 .cardDetails {

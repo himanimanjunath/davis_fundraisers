@@ -17,6 +17,9 @@ const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
+console.log("JWT_SECRET:", process.env.JWT_SECRET)
+
+
 //use CORS middleware globally to all routes 
 app.use(cors());
 

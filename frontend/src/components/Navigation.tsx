@@ -36,23 +36,28 @@ export default function Navigation({
           <span className={styles.logoText}>Aggie Fundraisers</span>
         </Link>
         <nav className={navClassName}>
-          <Link href="/fundraisers">
-            <button className={navButtonClassName}>Browse</button>
-          </Link>
           {isAuthenticated ? (
             <>
               {user && (
-                <span style={{ marginRight: "0.5rem", fontSize: "0.875rem" }}>
+                <span style={{ fontSize: "0.875rem" }}>
                   {user.name || user.email}
                 </span>
               )}
-              <Link href="/dashboard">
-                <button className={navButtonClassName}>Dashboard</button>
-              </Link>
+              <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+                <Link href="/fundraisers">
+                  <button className={navButtonClassName}>Browse</button>
+                </Link>
+                <Link href="/dashboard">
+                  <button className={navButtonClassName}>Dashboard</button>
+                </Link>
+              </div>
               <LogoutButton className={`${navButtonClassName} ${navButtonOutlineClassName}`} />
             </>
           ) : (
             <>
+              <Link href="/fundraisers">
+                <button className={navButtonClassName}>Browse</button>
+              </Link>
               <Link href="/login">
                 <button className={`${navButtonClassName} ${navButtonOutlineClassName}`}>
                   Login
