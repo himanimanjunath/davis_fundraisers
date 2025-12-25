@@ -2,7 +2,10 @@
 
 import { NextRequest, NextResponse } from "next/server"
 
-const BACKEND_URL = "http://localhost:4000"
+const BACKEND_URL =
+  process.env.BACKEND_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  "http://localhost:4000";
 
 // GET all fundraisers
 export async function GET() {

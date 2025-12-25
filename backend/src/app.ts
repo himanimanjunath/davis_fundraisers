@@ -21,7 +21,11 @@ console.log("JWT_SECRET:", process.env.JWT_SECRET)
 
 
 //use CORS middleware globally to all routes 
-app.use(cors());
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 //use middleware to parse the json bodies for request
 //without it the req.body would be undefined for POST req with JSON 
