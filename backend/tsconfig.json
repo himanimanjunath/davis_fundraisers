@@ -14,7 +14,8 @@
     "moduleDetection": "force",
 
     /* Emit */
-    "noEmit": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
     
     /* Interop */
     "esModuleInterop": true,
