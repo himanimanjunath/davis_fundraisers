@@ -23,7 +23,7 @@
     "resolveJsonModule": true,
 
     /* Type support */
-    "types": ["node"],
+    //"types": ["node"],
     "skipLibCheck": true
   },
   "include": ["src"],
