@@ -11,6 +11,12 @@ import jwt from 'jsonwebtoken';
 //10 is dfault for security and speed 
 const SALT_ROUNDS = 10;
 
+// JWT secret key - throw error if not configured
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  throw new Error('JWT_SECRET environment variable is required');
+}
+
 //async express handler function for user registeration
 // req - incomin data like email pw and name
 //res - to send reponses to the client 
@@ -42,12 +48,12 @@ export const register = async (req: Request, res: Response) => {
     //saving the doc into mongodb
     await user.save();
 
+
     //generate JWT token for the newly registered user
-    const secret = process.env.JWT_SECRET!;
     const token = jwt.sign(
-      { id: user._id.toString() }, 
-      secret, 
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+      { id: String(user._id) }, 
+      JWT_SECRET, 
+      { expiresIn: '7d' }
     );
 
     //201 reponse to show success registration with token
@@ -100,20 +106,15 @@ export const login = async (req: Request, res: Response) => {
     
     //console.log("five");
 
-    //load secret key used to sign JWT from env
-    const secret = process.env.JWT_SECRET!;
-    
-    //console.log("six");
-
     //make jwt token that encodes user's mongodb id 
     //jwt sign arguments
     //payload - data you're encoding 
     //secret key - from env 
     // token expires in 7 days by default 
     const token = jwt.sign(
-      { id: user._id.toString() }, 
-      secret, 
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+      { id: String(user._id) }, 
+      JWT_SECRET, 
+      { expiresIn: '7d' }
     );
 
     //send json reponse w the signed jwt token and basic user info 
