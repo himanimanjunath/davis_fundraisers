@@ -1,88 +1,54 @@
-//checks if requests have valid JWT and extract user ID from that JWT
-//attach user ID to request
-//block request if token is missing or invalid
-//protecting routes so only logged in users can 
-
 //protect routes so only logged in users w valid JWT token can access them 
+//reads JWT from headers, verifies it, attaches req.userId, blocks unauthorized users
 
 import { Request, Response, NextFunction } from 'express';
-//request - for HTTP request obj 
-//response - type for HTTP response obj 
-//next function - for next function in miiddleware to pass control to next function 
-
 import jwt from 'jsonwebtoken';
-//imports jsonwebtoken library - to sign and verify JWTs (JSON Web Tokens)
+import dotenv from 'dotenv'; //to access variables in .env
+dotenv.config(); //load the env vars from .env to make process.env.JWT_SECRET available
 
-import dotenv from 'dotenv';
-dotenv.config();
-//importing dotenv so we can access vars in .env
-//dotenv.config loads the vars into process.env so now process.env.JWT_SECRET will have the JWT key 
-
+//data/shape of JWT we expect
 interface JwtPayload {
-  id: string; //usually user ID from database
+  id: string; //user ID from db
 }
 
-//custom request type that extends express's request 
+//custom request type that includes authenticated user ID 
 export interface AuthRequest extends Request {
-  userId?: string;
-  //to store authenticated user id
+  userId?: string; 
 }
+//so after authentication i can do req.userId
 
-//making middleware function called authenticate and it takes in 
-//req - http request 
-//res - http response
-//next - passing control to next middleware/route handler
+//middleware function called authenticate 
+//runs before protected routes
+//if auth suceeeds, call next(); else error
 export const authenticate = (req: AuthRequest, res: Response, next: NextFunction) => {
-  //getting authorization header from incoming request 
+  
+  //getting authorization header from incoming request like "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR..."
   const authHeader = req.headers.authorization;
   
-  //checking if authorization header exists and starts w bearer
-  //bc JWTs are usually sent like: Authorization: Bearer <token>
-  //sends 401 if not 
-  //basically preventing 
+  //validate header
   if (!authHeader || !authHeader.startsWith('Bearer')){
     return res.status(401).json({message: 'No token provided'});
   }
 
-  //splitting the auth header by space and grabbing the actual token part after bearer
+  //extract token - splitting the auth header by space and grabbing the actual token part after bearer
   //"Bearer abc123" → token = "abc123"
   //it's an array - bearer is 0 and abc123 is 1
   const token = authHeader.split(' ')[1];
 
-  /*
-
-  try{
-    const secret = process.env.JWT_SECRET!;//gets the secret key from env
-
-    //verifies token using secret 
-    //jwt.verify returns decoded payload if valid
-    const payload = jwt.verify(token, secret) as JwtPayload;
-
-    //stores user ID from token on request object so downstream routes know which user is authenticated
-    req.userId = payload.id; 
-    
-    //next middleware/route handler
-    next();
-  } catch (err){
-    return res.status(401).json({message: 'invalid token'});
-  }
-    */
-
-   if (!token) {
+  if (!token) {
     return res.status(401).json({ message: 'Invalid token format' });
   }
 
-  try {
-    const secret = process.env.JWT_SECRET as string;
-    const decoded = jwt.verify(token, secret);
+  //verify the token 
 
-    if (typeof decoded === 'object' && decoded && 'id' in decoded) {
-      req.userId = (decoded as JwtPayload).id;
-      next();
-    } else {
-      return res.status(401).json({ message: 'Invalid token payload' });
-    }
-  } catch (err) {
+  //check if token is signed using my secret key, decode it / extract data inside it, take user id from token, attach to request object (if verification fails goes to error)
+  //now any protected route can do req.userId
+  //next() tells express auth succeeded and we can move onto route handlers 
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
+    req.userId = decoded.id;
+    next();
+  } catch {
     return res.status(401).json({ message: 'Invalid token' });
   }
 
