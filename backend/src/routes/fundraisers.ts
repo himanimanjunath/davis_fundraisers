@@ -14,15 +14,12 @@ router.get('/', listFundraisers);
 //calls getFundraiser to fetch specific fundraiser from mongodb
 router.get('/:id', getFundraiser);
 
-// protected by authenticate 
-
 //post endpoint at /
 //runs authenticate before createFundraiser 
 router.post('/', authenticate, createFundraiser);
 
 //delete endpoint at /:id
-//runs authenticate before deleteFundraiser to ensure only creator can delete
+//runs authenticate before deleteFundraiser because only creator can delete
 router.delete('/:id', authenticate, deleteFundraiser);
 
-//export to use in main server 
 export default router;
