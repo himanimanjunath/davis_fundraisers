@@ -1,15 +1,9 @@
-//proxy route between next and express 
-//this is for logging in existing users
-
-//this route accepts login credentials from the next.js app, forwards them to 
-//express auth API, and returns reponse in frontend safe way
+//for logging in existing users
+//accepts login credentials, forwards them to auth API, and returns response
 
 import { NextRequest, NextResponse } from "next/server"
 
-const BACKEND_URL =
-  process.env.BACKEND_URL ||
-  process.env.NEXT_PUBLIC_API_URL ||
-  "http://localhost:4000";
+const BACKEND_URL = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,7 +17,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({ email, password }),
     })
 
-    // Check Content-Type header before parsing JSON
+    //check content type header before parsing JSON
     const contentType = backendResponse.headers.get("content-type")
     const isJson = contentType && contentType.includes("application/json")
 
@@ -32,21 +26,15 @@ export async function POST(request: NextRequest) {
       try {
         data = await backendResponse.json()
       } catch (jsonError) {
-        console.error("Caught error parsing JSON:", jsonError)
+        //console.error(jsonError)
         return NextResponse.json(
           { message: "Invalid response from server" },
           { status: 500 }
         )
       }
     } else {
-      // Response is not JSON, read as text and log
+      // response isn't json, read as text and log
       const textResponse = await backendResponse.text()
-      console.error("Backend returned non-JSON response:", {
-        status: backendResponse.status,
-        statusText: backendResponse.statusText,
-        contentType: contentType || "unknown",
-        body: textResponse
-      })
       return NextResponse.json(
         { message: "Internal server error" },
         { status: 500 }
@@ -65,7 +53,6 @@ export async function POST(request: NextRequest) {
       )
     }
   } catch (error) {
-    console.error("Login error:", error)
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

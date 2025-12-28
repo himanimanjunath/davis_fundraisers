@@ -1,14 +1,9 @@
-//proxy route between next and express 
 //this is for registering new users
-
-//accepts registration data from the next.js app, forwards it to express auth, and returns clearn response to frontend
+//accepts registration data, forwards it to auth, and returns clearn response to frontend
 
 import { NextRequest, NextResponse } from "next/server"
 
-const BACKEND_URL =
-  process.env.BACKEND_URL ||
-  process.env.NEXT_PUBLIC_API_URL ||
-  "http://localhost:4000";
+const BACKEND_URL = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 export async function POST(request: NextRequest) {
   try {
@@ -34,7 +29,6 @@ export async function POST(request: NextRequest) {
       )
     }
   } catch (error) {
-    console.error("Registration error:", error)
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

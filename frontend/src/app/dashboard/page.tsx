@@ -3,7 +3,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import Link from "next/link"
 import { Plus, Trash2 } from 'lucide-react'
 import { useAuth } from "@/contexts/AuthContext"
@@ -25,15 +25,16 @@ interface Fundraiser {
 
 export default function DashboardPage() {
   const router = useRouter()
+  const pathname = usePathname()
   const { loading, isAuthenticated, user } = useAuth()
   const [fundraisers, setFundraisers] = useState<Fundraiser[]>([])
   const [fundraisersLoading, setFundraisersLoading] = useState(true)
 
   useEffect(() => {
-    if (!isAuthenticated && !loading) {
-      router.push("/login")
+    if (!loading && !isAuthenticated && pathname.startsWith("/dashboard")) {
+      router.replace("/login")
     }
-  }, [isAuthenticated, loading, router])
+  }, [loading, isAuthenticated, pathname, router])
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -88,33 +89,15 @@ export default function DashboardPage() {
         Authorization: `Bearer ${token}`,
       }
 
-      // Log request details for debugging
-      console.log("Frontend - DELETE Request:", {
-        url: requestUrl,
-        method: "DELETE",
-        headers: {
-          "Content-Type": requestHeaders["Content-Type"],
-          Authorization: `Bearer ${token.substring(0, 20)}...` // Log partial token for security
-        }
-      })
-
       const response = await fetch(requestUrl, {
         method: "DELETE",
         headers: requestHeaders,
       })
 
-      // Get response data
+      //get response data
       const data = await response.json()
 
-      // Log response details for debugging
-      console.log("Frontend - DELETE Response:", {
-        status: response.status,
-        statusText: response.statusText,
-        ok: response.ok,
-        data: JSON.stringify(data)
-      })
-
-      // Handle different response codes
+      //different response codes
       if (response.status === 200) {
         // Success - remove fundraiser from local state
         console.log("Frontend - Delete successful:", data)

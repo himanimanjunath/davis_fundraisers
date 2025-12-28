@@ -14,7 +14,7 @@ export default function LogoutButton({ children, className }: LogoutButtonProps)
 
   const handleClick = () => {
     logout()
-    router.push("/login")
+    router.push("/")
   }
 
   return (

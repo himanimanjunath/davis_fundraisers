@@ -14,7 +14,7 @@ interface AuthContextType {
   user: User | null
   loading: boolean
   isAuthenticated: boolean
-  login: (token: string) => void
+  login: (token: string) => Promise<void>
   logout: () => void
 }
 
@@ -78,9 +78,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [])
 
   //login function - stores token and fetches user data
-  const login = (token: string) => {
+  const login = async (token: string) => {
     localStorage.setItem("token", token)
-    fetchUser(token)
+    await fetchUser(token)
   }
 
   //logout function - clears token and resets state

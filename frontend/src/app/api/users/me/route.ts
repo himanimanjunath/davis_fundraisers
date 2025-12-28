@@ -1,12 +1,8 @@
-//proxy route between next.js frontend and express backend
 //returns current authenticated user information
 
 import { NextRequest, NextResponse } from "next/server"
 
-const BACKEND_URL =
-  process.env.BACKEND_URL ||
-  process.env.NEXT_PUBLIC_API_URL ||
-  "http://localhost:4000";
+const BACKEND_URL = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 export async function GET(request: NextRequest) {
   try {
@@ -43,7 +39,7 @@ export async function GET(request: NextRequest) {
       )
     }
   } catch (error) {
-    console.error("Error fetching user:", error)
+    console.error(error)
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
