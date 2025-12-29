@@ -32,8 +32,8 @@ export default function LoginPage() {
       const data = await response.json()
 
       if (response.ok) {
-        login(data.token)
-        router.push("/dashboard")
+        await login(data.token)
+        router.replace("/dashboard")
       } else {
         setError(data.message || "Login failed. Please try again.")
       }

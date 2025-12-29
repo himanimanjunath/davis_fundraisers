@@ -1,13 +1,10 @@
-//this route lets next app fetch and make fundraisers by forwarding requests to express api, keeping
+//fetch and make fundraisers by forwarding requests to express api
 
 import { NextRequest, NextResponse } from "next/server"
 
-const BACKEND_URL =
-  process.env.BACKEND_URL ||
-  process.env.NEXT_PUBLIC_API_URL ||
-  "http://localhost:4000";
+const BACKEND_URL = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
-// GET all fundraisers
+//GET all fundraisers
 export async function GET() {
   try {
     const backendResponse = await fetch(`${BACKEND_URL}/api/fundraisers`, {
@@ -34,20 +31,20 @@ export async function GET() {
   }
 }
 
-// POST new fundraiser
+//POST new fundraiser
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     
-    // Get Authorization header from request
+    //Get authorization header from request
     const authHeader = request.headers.get("authorization")
     
-    // Build headers object
+    //Build headers object
     const headers: HeadersInit = {
       "Content-Type": "application/json",
     }
     
-    // Forward Authorization header if present
+    //Forward authorization header if present
     if (authHeader) {
       headers.Authorization = authHeader
     }
@@ -69,7 +66,7 @@ export async function POST(request: NextRequest) {
       )
     }
   } catch (error) {
-    console.error("Error creating fundraiser:", error)
+    console.error(error)
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

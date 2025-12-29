@@ -23,7 +23,7 @@ export default function Navigation({
 }: NavigationProps) {
   const { loading, isAuthenticated, user } = useAuth()
 
-  // If loading, render nothing
+  //if loading, render nothing
   if (loading) {
     return null
   }
@@ -43,7 +43,7 @@ export default function Navigation({
                   {user.name || user.email}
                 </span>
               )}
-              <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+              <div style={{ display: "flex", gap: "0.2rem", alignItems: "center" }}>
                 <Link href="/fundraisers">
                   <button className={navButtonClassName}>Browse</button>
                 </Link>

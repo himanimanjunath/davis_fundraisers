@@ -76,7 +76,7 @@
   gap: 1rem;
 }
 
-/* Added search bar and input styles */
+/* search bar and input styles */
 .searchContainer {
   position: relative;
   display: flex;
@@ -121,7 +121,9 @@
 
 .pageDescription {
   color: #6b7280;
-  margin-top: 0.5rem;
+  /*margin-top: 0.5rem;*/
+  margin-top: 0.2rem;
+  margin-bottom: 1rem;
 }
 
 .primaryButton {
@@ -295,7 +297,7 @@
 
 .skeleton {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  /* Added padding back for skeleton cards */
+  /* added padding back for skeleton cards */
   padding: 1.5rem;
 }
 

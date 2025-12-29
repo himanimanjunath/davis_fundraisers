@@ -3,7 +3,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import Link from "next/link"
 import { Heart, ArrowLeft, Upload, X } from 'lucide-react'
 import { useAuth } from "@/contexts/AuthContext"
@@ -11,6 +11,7 @@ import styles from './create.module.css'
 
 export default function CreateFundraiserPage() {
   const router = useRouter()
+  const pathname = usePathname()
   const { loading, isAuthenticated } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
@@ -52,17 +53,17 @@ export default function CreateFundraiserPage() {
     setFormData({ ...formData, flyerImage: "" })
   }
 
-  // Redirect to login if not authenticated
+  //redirect to login if not authenticated and still on dashboard route
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.push("/login")
+    if (!loading && !isAuthenticated && pathname.startsWith("/dashboard")) {
+      router.replace("/login")
     }
-  }, [loading, isAuthenticated, router])
+  }, [loading, isAuthenticated, pathname, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    // Check for token before making request
+    //check for token before making request
     const token = localStorage.getItem("token")
     if (!token) {
       router.push("/login")
@@ -110,12 +111,12 @@ export default function CreateFundraiserPage() {
     }
   }
 
-  // Show loading state while checking authentication
+  //show loading state while checking authentication
   if (loading) {
     return <div>Loading...</div>
   }
 
-  // Don't render if not authenticated (will redirect)
+  //don't render if not authenticated (will redirect)
   if (!isAuthenticated) {
     return null
   }
@@ -216,7 +217,7 @@ export default function CreateFundraiserPage() {
                   value={formData.fundraiserName}
                   onChange={handleChange}
                   className={styles.input}
-                  placeholder="e.g., Bake Sale, Car Wash"
+                  placeholder="e.g., GWC x YoloBerry"
                   required
                 />
               </div>
@@ -232,7 +233,7 @@ export default function CreateFundraiserPage() {
                   value={formData.location}
                   onChange={handleChange}
                   className={styles.input}
-                  placeholder="e.g., Downtown Davis, Memorial Union"
+                  placeholder="e.g., 316 C St, Davis, CA 95616"
                   required
                 />
               </div>
@@ -280,7 +281,7 @@ export default function CreateFundraiserPage() {
                   onChange={handleChange}
                   className={styles.textarea}
                   rows={4}
-                  placeholder="e.g., All proceeds go towards funding our club's trip to nationals"
+                  placeholder="e.g., 20% of proceeds will go to support our program!"
                 />
               </div>
 

@@ -1,11 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server"
 
 const BACKEND_URL =
-  process.env.BACKEND_URL ||
-  process.env.NEXT_PUBLIC_API_URL ||
-  "http://localhost:4000";
+  process.env.BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
-// DELETE a fundraiser by ID
+//delete fundraiser by ID
 export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await context.params
@@ -13,27 +11,17 @@ export async function DELETE(request: NextRequest, context: { params: Promise<{ 
     //get authorization header from request
     const authHeader = request.headers.get("authorization")
     
-    // Build headers object - explicitly forward Authorization header
+    //build headers object - explicitly forward authorization header
     const headers: HeadersInit = {
       "Content-Type": "application/json",
     }
     
-    // Forward Authorization header explicitly from request to backend
+    //forward Authorization header explicitly from request to backend
     if (authHeader) {
       headers.Authorization = authHeader
     }
 
     const backendUrl = `${BACKEND_URL}/api/fundraisers/${id}`
-    
-    // Log request details for debugging
-    console.log("Next.js API Route - DELETE Request:", {
-      url: backendUrl,
-      method: "DELETE",
-      headers: {
-        "Content-Type": headers["Content-Type"],
-        Authorization: authHeader ? `${authHeader.substring(0, 20)}...` : "missing"
-      }
-    })
 
     const backendResponse = await fetch(backendUrl, {
       method: "DELETE",
@@ -42,20 +30,10 @@ export async function DELETE(request: NextRequest, context: { params: Promise<{ 
 
     const data = await backendResponse.json()
 
-    // Log backend response for debugging
-    console.log("Next.js API Route - Backend Response:", {
-      status: backendResponse.status,
-      statusText: backendResponse.statusText,
-      data: JSON.stringify(data)
-    })
-
-    // Forward backend status code and JSON response to frontend
+    //forward backend status code and json response to frontend
     return NextResponse.json(data, { status: backendResponse.status })
   } catch (error) {
-    console.error("Next.js API Route - Error deleting fundraiser:", {
-      error: error instanceof Error ? error.message : String(error),
-      stack: error instanceof Error ? error.stack : undefined
-    })
+    console.error(error)
     return NextResponse.json({ message: "Internal server error" }, { status: 500 })
   }
 }
