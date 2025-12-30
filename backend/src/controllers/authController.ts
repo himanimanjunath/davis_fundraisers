@@ -65,7 +65,7 @@ export const login = async (req: Request, res: Response) => {
     //extract email and pw from request body 
     const {email, password} = req.body;
 
-    //validating both fields
+    //validating both fields are given
     if (!email || !password){
         return res.status(400).json({ message: 'Email and password required'})
     };
