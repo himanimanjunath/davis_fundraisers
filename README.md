@@ -10,7 +10,7 @@ Check it out at: [https://aggie-fundraisers.vercel.app/](https://aggie-fundraise
 
 UI updates soon, stay tuned!
 
-## Summary:
+## Design:
 <img width="398" height="170" alt="Screenshot 2025-12-30 at 10 56 27 PM" src="https://github.com/user-attachments/assets/4ee3accc-a435-4eeb-9478-1cf745ef3603" />
 
 <img width="1200" alt="" src="https://github.com/user-attachments/assets/a0f60be5-6716-4a35-a623-980f1305d1b5" />
