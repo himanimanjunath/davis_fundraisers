@@ -11,7 +11,7 @@ export async function DELETE(request: NextRequest, context: { params: Promise<{ 
     //get authorization header from request
     const authHeader = request.headers.get("authorization")
     
-    //build headers object - explicitly forward authorization header
+    //build headers object 
     const headers: HeadersInit = {
       "Content-Type": "application/json",
     }

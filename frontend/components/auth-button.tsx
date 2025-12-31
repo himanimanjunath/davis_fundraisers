@@ -12,8 +12,12 @@ import styles from "./auth-button.module.css"
 export function AuthButton() {
   const router = useRouter()
   const { user, loading, isAuthenticated, logout } = useAuth()
+  //user - logged in user obj
+  //loading - whether auth state being resolved
+  //isAuthenticated - bool
+  //logout - clear token/session 
 
-  //for sign out: call logout (which clears token) and redirect to homepage
+  //for sign out: call logout (which clears token / auth state) and redirect to homepage
   const handleSignOut = () => {
     logout()
     router.push("/")
@@ -23,7 +27,7 @@ export function AuthButton() {
     return <div className={styles.loading}>Loading...</div>
   }
 
-  //if user is authenticated
+  //if user is authenticated + user data exists 
   if (isAuthenticated && user) {
     return (
       <div className={styles.userMenu}>
@@ -44,6 +48,7 @@ export function AuthButton() {
     )
   }
 
+  //unauthenticated UI/state (default)
   return (
     <button 
       onClick={() => router.push("/login")} 

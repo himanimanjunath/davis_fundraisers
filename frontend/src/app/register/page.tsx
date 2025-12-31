@@ -86,7 +86,7 @@ export default function RegisterPage() {
                   id="name"
                   name="name"
                   type="text"
-                  placeholder="John Doe"
+                  placeholder="Jane Doe"
                   className={styles.input}
                   value={formData.name}
                   onChange={handleChange}
