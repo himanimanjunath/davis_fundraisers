@@ -2,13 +2,9 @@
 
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/AuthContext"
+import styles from "../app/page.module.css"
 
-interface LogoutButtonProps {
-  children?: React.ReactNode
-  className?: string
-}
-
-export default function LogoutButton({ children, className }: LogoutButtonProps) {
+export default function LogoutButton() {
   const router = useRouter()
   const { logout } = useAuth()
 
@@ -18,9 +14,12 @@ export default function LogoutButton({ children, className }: LogoutButtonProps)
   }
 
   return (
-    <button type="button" onClick={handleClick} className={className}>
-      {children || "Logout"}
+    <button
+      type="button"
+      onClick={handleClick}
+      className={`${styles.navButton} ${styles.navButtonOutline}`}
+    >
+      Logout
     </button>
   )
 }
-

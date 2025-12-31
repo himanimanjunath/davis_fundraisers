@@ -9,7 +9,7 @@ interface User {
   name?: string
 }
 
-//context value type
+//what useAuth() returns 
 interface AuthContextType {
   user: User | null
   loading: boolean
@@ -48,29 +48,35 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setUser(userData)
         setIsAuthenticated(true)
       } else {
+
         //token is invalid or expired, remove it
         localStorage.removeItem("token")
         setUser(null)
         setIsAuthenticated(false)
       }
+      
     } catch (error) {
-      console.error("Error fetching user:", error)
-      //on error, clear token and reset state
+      console.error(error)
+      
+      //on error (considering error = unauthenticated), clear token and reset state
       localStorage.removeItem("token")
       setUser(null)
       setIsAuthenticated(false)
+      
     } finally {
       setLoading(false)
     }
   }
 
-  //on mount, check for token and fetch user if exists
+  //for persistent login - on mount, check for token and fetch user if exists 
   useEffect(() => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token") //read stored JWT from browser storage
     
     if (token) {
       fetchUser(token)
+      
     } else {
+
       //no token, user is not authenticated
       setLoading(false)
       setIsAuthenticated(false)
@@ -79,7 +85,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   //login function - stores token and fetches user data
   const login = async (token: string) => {
-    localStorage.setItem("token", token)
+    localStorage.setItem("token", token) // save token for persistence across refreshes
     await fetchUser(token)
   }
 

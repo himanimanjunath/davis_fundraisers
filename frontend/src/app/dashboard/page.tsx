@@ -99,35 +99,44 @@ export default function DashboardPage() {
 
       //different response codes
       if (response.status === 200) {
+        
         // Success - remove fundraiser from local state
-        console.log("Frontend - Delete successful:", data)
+        console.log("200:", data)
         setFundraisers(fundraisers.filter((f) => f._id !== id))
         alert("Fundraiser deleted successfully")
+
       } else if (response.status === 401) {
+
         // Unauthorized - missing or invalid token
-        console.error("Frontend - Unauthorized (401):", data)
+        console.error(data)
         alert(data.message || "You must be logged in to delete a fundraiser")
+
       } else if (response.status === 403) {
+
         // Forbidden - user doesn't own the fundraiser
-        console.error("Frontend - Forbidden (403):", data)
+        console.error("403:", data)
         alert(data.message || "You don't have permission to delete this fundraiser")
+
       } else if (response.status === 404) {
+
         // Not found - fundraiser doesn't exist
-        console.error("Frontend - Not Found (404):", data)
+        console.error("404:", data)
         alert(data.message || "Fundraiser not found")
         // Remove from local state if it was already deleted
         setFundraisers(fundraisers.filter((f) => f._id !== id))
+
       } else if (response.status === 500) {
+
         // Server error
-        console.error("Frontend - Server Error (500):", data)
+        console.error("500:", data)
         alert(data.message || "Server error occurred while deleting fundraiser")
+
       } else {
-        // Other error
-        console.error("Frontend - Delete failed:", { status: response.status, data })
+        console.error({ status: response.status, data })
         alert(data.message || "Failed to delete fundraiser")
       }
     } catch (error) {
-      console.error("Frontend - Error deleting fundraiser:", {
+      console.error({
         error: error instanceof Error ? error.message : String(error),
         stack: error instanceof Error ? error.stack : undefined
       })
