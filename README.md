@@ -1,15 +1,26 @@
 # Aggie Fundraisers 
 
-Centralized hub for clubs at UC Davis to upload fundraising events, allowing students to easily browse nearby fundraisers while downtown and save money on purchases if possible, while supporting campus causes.
+A centralized hub for clubs at UC Davis to upload fundraising events, allowing students to easily browse nearby fundraisers while downtown, save money on purchases, and support campus causes.
 
-Made with Next.js, Node.js, Express, and MongoDB. 
+
+Made with Next.js, Node.js, Express, and MongoDB Atlas. 
 
 Check it out at: [https://aggie-fundraisers.vercel.app/](https://aggie-fundraisers.vercel.app/)
 
 <img width="1436" height="678" alt="Screenshot 2025-12-29 at 11 54 24 PM" src="https://github.com/user-attachments/assets/d15b06d7-1080-47a5-8369-f7811ed22333" />
 
+Will be updating UI soon!
 
-UI updates soon, stay tuned!
+## Architecture Overview 
+
+<img width="398" height="170" alt="Screenshot 2025-12-30 at 10 56 27 PM" src="https://github.com/user-attachments/assets/4ee3accc-a435-4eeb-9478-1cf745ef3603" />
+
+<img width="2480" height="3456" alt="Untitled diagram-2026-01-02-082222" src="https://github.com/user-attachments/assets/8cbba5ad-a998-4f66-bde5-c39ac35f1f13" />
+
+## Backend Architecture 
+
+<img width="3657" height="457" alt="Untitled diagram-2026-01-02-083330" src="https://github.com/user-attachments/assets/fd990427-7616-44b3-90ba-f0960e9bfde7" />
+
 
 ### Timeline:
 * Week 1: Database setup + connection 
@@ -19,10 +30,5 @@ UI updates soon, stay tuned!
 * Week 5-6: Dashboard features, address bugs, clean up, + polish UI 
 * Week 7: Deployment on Vercel and Render (for backend)
 
-### Design:
+### Idea:
 <img width="398" height="170" alt="Screenshot 2025-12-30 at 10 56 27 PM" src="https://github.com/user-attachments/assets/4ee3accc-a435-4eeb-9478-1cf745ef3603" />
-
-<img width="1200" alt="" src="https://github.com/user-attachments/assets/a0f60be5-6716-4a35-a623-980f1305d1b5" />
-
-
-<img width="1200" alt="" src="https://github.com/user-attachments/assets/6c4f6e33-4110-4283-a9b9-0357311ad928" />
