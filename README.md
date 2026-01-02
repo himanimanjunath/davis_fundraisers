@@ -13,13 +13,13 @@ Will be updating UI soon!
 
 ## Architecture Overview 
 
-<img width="398" height="170" alt="Screenshot 2025-12-30 at 10 56 27 PM" src="https://github.com/user-attachments/assets/4ee3accc-a435-4eeb-9478-1cf745ef3603" />
+<img width="398" height="170" alt="" src="https://github.com/user-attachments/assets/4ee3accc-a435-4eeb-9478-1cf745ef3603" />
 
-<img width="2480" height="3456" alt="Untitled diagram-2026-01-02-082222" src="https://github.com/user-attachments/assets/8cbba5ad-a998-4f66-bde5-c39ac35f1f13" />
+<img width="398" alt="" src="https://github.com/user-attachments/assets/8cbba5ad-a998-4f66-bde5-c39ac35f1f13" />
 
 ## Backend Architecture 
 
-<img width="3657" height="457" alt="Untitled diagram-2026-01-02-083330" src="https://github.com/user-attachments/assets/fd990427-7616-44b3-90ba-f0960e9bfde7" />
+<img width="3657" height="457" alt="" src="https://github.com/user-attachments/assets/fd990427-7616-44b3-90ba-f0960e9bfde7" />
 
 
 ### Timeline:
@@ -31,4 +31,4 @@ Will be updating UI soon!
 * Week 7: Deployment on Vercel and Render (for backend)
 
 ### Idea:
-<img width="398" height="170" alt="Screenshot 2025-12-30 at 10 56 27 PM" src="https://github.com/user-attachments/assets/4ee3accc-a435-4eeb-9478-1cf745ef3603" />
+<img width="398" height="170" alt="" src="https://github.com/user-attachments/assets/4ee3accc-a435-4eeb-9478-1cf745ef3603" />
