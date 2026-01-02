@@ -13,8 +13,6 @@ Will be updating UI soon!
 
 ## Architecture Overview 
 
-<img width="398" height="170" alt="" src="https://github.com/user-attachments/assets/4ee3accc-a435-4eeb-9478-1cf745ef3603" />
-
 <img width="398" alt="" src="https://github.com/user-attachments/assets/8cbba5ad-a998-4f66-bde5-c39ac35f1f13" />
 
 ## Backend Architecture 
