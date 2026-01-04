@@ -22,6 +22,19 @@ export default function Navigation() {
         <nav className={styles.nav}>
           {isAuthenticated ? (
             <>
+
+              {user && (
+                <span
+                  style={{
+                    fontSize: "0.875rem",
+                    color: "#4b5563",
+                    marginRight: "1rem",
+                  }}
+                >
+                  {user.name || user.email}
+                </span>
+              )}
+              
               <Link href="/fundraisers">
                 <button className={styles.navButton}>Browse</button>
               </Link>
