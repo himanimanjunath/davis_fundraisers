@@ -57,7 +57,7 @@
   /*font-size: 0.875rem;*/
   font-size: 0.900rem;
   font-weight: 500;
-  transition: background 0.2s;
+  /*transition: background 0.2s;*/
 }
 
 .navButton:hover {
@@ -65,9 +65,11 @@
 }
 
 /*decide if i like this*/
+/*
 .navButtonOutline {
-  /*border: 1px solid #111827;*/
+  border: 1px solid #111827;
 }
+*/
 
 .navButtonOutline:hover {
   background: #f9fafb;
